@@ -4,10 +4,10 @@ return {
     name = "catppuccin",
     priority = 1000,
     opts = {
-      flavour = "latte", -- "latte" (soothing light), "frappe" (soft muted dark), "macchiato", "mocha"
+      flavour = "frappe", -- "frappe" (soft, low-contrast, muted light-dark), "macchiato", "mocha", "latte"
       transparent_background = false,
-      no_italic = true, -- Disable italics to prevent font distortion
-      no_bold = true,   -- Disable bold to keep text crisp and clean
+      no_italic = true, -- Clean, crisp fonts (no distortion)
+      no_bold = true,   -- No chunky bold weights
       no_underline = false,
       styles = {
         comments = {},
@@ -34,14 +34,14 @@ return {
     },
     config = function(_, opts)
       require("catppuccin").setup(opts)
-      vim.cmd.colorscheme("catppuccin-latte")
+      vim.cmd.colorscheme("catppuccin-frappe")
     end,
   },
   {
     "folke/tokyonight.nvim",
     lazy = true,
     opts = {
-      style = "day", -- "day" (light), "moon" (soft dark), "storm", "night"
+      style = "moon", -- "moon" (soft, gentle dark)
       transparent = false,
       styles = {
         comments = {},
@@ -61,7 +61,7 @@ return {
         globalstatus = true,
         icons_enabled = true,
         component_separators = { left = "|", right = "|" },
-        section_separators = { left = "", right = "" }, -- Minimal clean dividers (no broken font boxes)
+        section_separators = { left = "", right = "" },
         disabled_filetypes = {
           statusline = { "help", "lazy" },
         },
@@ -103,7 +103,7 @@ return {
     opts = {
       options = {
         mode = "buffers",
-        separator_style = "thin", -- Clean minimal line separator
+        separator_style = "thin",
         always_show_bufferline = false,
         show_buffer_close_icons = false,
         show_close_icon = false,
@@ -120,7 +120,7 @@ return {
         char = "│",
       },
       scope = {
-        enabled = false, -- Disable heavy scope highlighting for a cleaner look
+        enabled = false,
       },
       exclude = {
         filetypes = { "help", "lazy", "mason", "notify" },
