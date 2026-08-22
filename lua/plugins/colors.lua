@@ -1,37 +1,55 @@
 return {
   {
-    "folke/tokyonight.nvim",
-    lazy = false,
+    "catppuccin/nvim",
+    name = "catppuccin",
     priority = 1000,
     opts = {
-      style = "night", -- "night", "storm", "moon", or "day"
-      transparent = true,
+      flavour = "latte", -- "latte" (soothing light), "frappe" (soft muted dark), "macchiato", "mocha"
+      transparent_background = false,
+      no_italic = true, -- Disable italics to prevent font distortion
+      no_bold = true,   -- Disable bold to keep text crisp and clean
+      no_underline = false,
       styles = {
-        sidebars = "transparent",
-        floats = "transparent",
-        comments = { italic = true },
-        keywords = { italic = true },
+        comments = {},
+        conditionals = {},
+        loops = {},
+        functions = {},
+        keywords = {},
+        strings = {},
+        variables = {},
+        numbers = {},
+        booleans = {},
+        properties = {},
+        types = {},
+        operators = {},
+      },
+      integrations = {
+        treesitter = true,
+        gitsigns = true,
+        telescope = { enabled = true },
+        harpoon = true,
+        which_key = true,
+        indent_blankline = { enabled = true },
+      },
+    },
+    config = function(_, opts)
+      require("catppuccin").setup(opts)
+      vim.cmd.colorscheme("catppuccin-latte")
+    end,
+  },
+  {
+    "folke/tokyonight.nvim",
+    lazy = true,
+    opts = {
+      style = "day", -- "day" (light), "moon" (soft dark), "storm", "night"
+      transparent = false,
+      styles = {
+        comments = {},
+        keywords = {},
         functions = {},
         variables = {},
       },
-      dim_inactive = false,
-      lualine_bold = true,
-      on_highlights = function(hl, c)
-        hl.LineNr = { fg = c.dark5 }
-        hl.CursorLineNr = { fg = c.orange, bold = true }
-        hl.FloatBorder = { fg = c.blue0, bg = "none" }
-        hl.NormalFloat = { bg = "none" }
-        hl.TelescopeBorder = { fg = c.blue0, bg = "none" }
-        hl.TelescopePromptBorder = { fg = c.magenta, bg = "none" }
-        hl.TelescopePromptTitle = { fg = c.bg, bg = c.magenta, bold = true }
-        hl.TelescopePreviewTitle = { fg = c.bg, bg = c.green, bold = true }
-        hl.TelescopeResultsTitle = { fg = c.bg, bg = c.blue, bold = true }
-      end,
     },
-    config = function(_, opts)
-      require("tokyonight").setup(opts)
-      vim.cmd.colorscheme("tokyonight")
-    end,
   },
   {
     "nvim-lualine/lualine.nvim",
@@ -39,44 +57,41 @@ return {
     event = "VeryLazy",
     opts = {
       options = {
-        theme = "tokyonight",
+        theme = "auto",
         globalstatus = true,
-        component_separators = { left = "│", right = "│" },
-        section_separators = { left = "", right = "" },
+        icons_enabled = true,
+        component_separators = { left = "|", right = "|" },
+        section_separators = { left = "", right = "" }, -- Minimal clean dividers (no broken font boxes)
         disabled_filetypes = {
           statusline = { "help", "lazy" },
         },
       },
       sections = {
-        lualine_a = {
-          { "mode", icon = "" },
-        },
+        lualine_a = { "mode" },
         lualine_b = {
-          { "branch", icon = "" },
+          "branch",
           {
             "diff",
-            symbols = { added = " ", modified = " ", removed = " " },
+            symbols = { added = "+", modified = "~", removed = "-" },
           },
         },
         lualine_c = {
           {
             "filename",
-            path = 1, -- Relative path
-            symbols = { modified = " ●", readonly = " ", unnamed = "[No Name]" },
+            path = 1,
+            symbols = { modified = " *", readonly = " [RO]", unnamed = "[No Name]" },
           },
         },
         lualine_x = {
           {
             "diagnostics",
             sources = { "nvim_diagnostic" },
-            symbols = { error = " ", warn = " ", info = " ", hint = "󰌵 " },
+            symbols = { error = "E:", warn = "W:", info = "I:", hint = "H:" },
           },
-          { "filetype", icon_only = false },
+          "filetype",
         },
         lualine_y = { "progress" },
-        lualine_z = {
-          { "location", icon = "" },
-        },
+        lualine_z = { "location" },
       },
     },
   },
@@ -88,19 +103,11 @@ return {
     opts = {
       options = {
         mode = "buffers",
-        separator_style = "slant",
+        separator_style = "thin", -- Clean minimal line separator
         always_show_bufferline = false,
         show_buffer_close_icons = false,
         show_close_icon = false,
-        diagnostics = "nvim_lsp",
-        offsets = {
-          {
-            filetype = "NvimTree",
-            text = "File Explorer",
-            highlight = "Directory",
-            text_align = "left",
-          },
-        },
+        diagnostics = false,
       },
     },
   },
@@ -111,13 +118,9 @@ return {
     opts = {
       indent = {
         char = "│",
-        tab_char = "│",
       },
       scope = {
-        enabled = true,
-        show_start = false,
-        show_end = false,
-        highlight = { "Function", "Label" },
+        enabled = false, -- Disable heavy scope highlighting for a cleaner look
       },
       exclude = {
         filetypes = { "help", "lazy", "mason", "notify" },

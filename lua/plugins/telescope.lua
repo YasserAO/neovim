@@ -8,8 +8,8 @@ return {
     },
     opts = {
       defaults = {
-        prompt_prefix = "   ",
-        selection_caret = " ❯ ",
+        prompt_prefix = " > ",
+        selection_caret = " > ",
         entry_prefix = "   ",
         layout_strategy = "horizontal",
         layout_config = {
@@ -28,7 +28,7 @@ return {
         sorting_strategy = "ascending",
         winblend = 0,
         border = true,
-        borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+        borderchars = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
       },
     },
     config = function(_, opts)
